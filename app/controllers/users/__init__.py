@@ -12,9 +12,6 @@ from app.schemas.users import (
 )
 
 
-USER_ID_SESSION = 'user_id'
-
-
 def users_bp(blueprint: Blueprint):
     @blueprint.route('/get_users', methods=['GET'])
     @validate()
