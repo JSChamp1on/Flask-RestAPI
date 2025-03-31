@@ -1,31 +1,37 @@
-from flask import Blueprint
-from flask_pydantic import validate
+from flask.views import MethodView
+from flask_smorest import Blueprint
 
 from .get import get_users
 from .login import login_user
 from .register import register_user
 from app.csrf import csrf
 from app.schemas.users import (
-    RequestGetUser,
-    RequestLoginUser,
-    RequestRegisterUser,
+    RequestGetUser, ResponseUserList,
+    RequestLoginUser, ResponseLoginUser,
+    RequestRegisterUser, ResponseRegisterUser,
 )
 
 
-def users_bp(blueprint: Blueprint):
-    @blueprint.route('/get_users', methods=['GET'])
-    @validate()
-    def handle_get_user(query: RequestGetUser):
-        return get_users(query)
-
-    @blueprint.route('/login_user', methods=['POST'])
+def user_blp(blp: Blueprint):
+    @blp.route('/register_user')
     @csrf.exempt
-    @validate()
-    def handle_login(body: RequestLoginUser):
-        return login_user(body)
+    class RegisterUser(MethodView):
+        @blp.arguments(RequestRegisterUser, content_type='application/json')
+        @blp.response(200, ResponseRegisterUser, content_type='application/json')
+        def post(self, body):
+            return register_user(body)
 
-    @blueprint.route('/register_user', methods=['POST'])
+    @blp.route('/login_user')
     @csrf.exempt
-    @validate()
-    def handle_register_user(body: RequestRegisterUser):
-        return register_user(body)
+    class LoginUser(MethodView):
+        @blp.arguments(RequestLoginUser, content_type='application/json')
+        @blp.response(200, ResponseLoginUser, content_type='application/json')
+        def post(self, body):
+            return login_user(body)
+
+    @blp.route('/get_users')
+    class GetUsers(MethodView):
+        @blp.arguments(RequestGetUser, location='query')
+        @blp.response(200, ResponseUserList, content_type='application/json')
+        def get(self, query):
+            return get_users(query)

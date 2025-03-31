@@ -1,14 +1,17 @@
-from pydantic import BaseModel
+from marshmallow import RAISE, INCLUDE, Schema, fields
 
 
-class RequestLoginUser(BaseModel):
-    class Config:
-        from_attributes = True
+class RequestLoginUser(Schema):
+    username = fields.String(required=True)
+    password = fields.String(required=True)
 
-    username: str
-    password: str
+    class Meta:
+        unknown = RAISE
 
 
-class ResponseLoginUser(BaseModel):
-    username: str
-    message: str
+class ResponseLoginUser(Schema):
+    username = fields.String(required=True)
+    message = fields.String(required=True)
+
+    class Meta:
+        unknown = INCLUDE

@@ -15,9 +15,9 @@ def get_users(query: RequestGetUser) -> Tuple[ResponseUserList, int] | Response:
         return Response('User not found', status=404)
 
     if session_entry_user == UNAUTHORIZED:
-        return get_username_user_list()
+        return get_username_user_list(), 401
 
     if session_entry_user == AUTHORIZED:
-        return get_full_user_list()
+        return get_full_user_list(), 200
 
     return Response('An unforeseen scenario', status=418)

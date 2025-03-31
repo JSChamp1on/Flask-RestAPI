@@ -1,8 +1,9 @@
-from flask import Blueprint
+from flask_smorest import Blueprint
 
-from app.controllers.users import users_bp
+from app.controllers.users import user_blp
 
 
-controllers = Blueprint('controllers', __name__, url_prefix='/api')
+user_controller = Blueprint('User', 'user_controller', url_prefix='/api', description='Operations on WSGI')
 
-users_bp(controllers)
+
+user_blp(user_controller)

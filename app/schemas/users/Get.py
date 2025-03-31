@@ -1,26 +1,26 @@
-from typing import List
+from typing import List, Union
 
-from pydantic import BaseModel
-
-
-class RequestGetUser(BaseModel):
-    class Config:
-        from_attributes = True
-
-    username: str | None = None
+from pydantic import BaseModel, ConfigDict
+from marshmallow import RAISE, INCLUDE, Schema, fields
 
 
-class ResponseGetUser(BaseModel):
-    username: str | None
+class RequestGetUser(Schema):
+    username: str = fields.String(required=False)
+
+    class Meta:
+        unknown = RAISE
 
 
-class ResponseFullGetUser(BaseModel):
-    username: str
-    gender: str
-    birthday: str
-    last_name: str
-    first_name: str
+class ResponseGetUser(Schema):
+    username: str = fields.String(required=True)
+    gender: str = fields.String(required=False)
+    birthday: str = fields.String(required=False)
+    last_name: str = fields.String(required=False)
+    first_name: str = fields.String(required=False)
+
+    class Meta:
+        unknown = INCLUDE
 
 
-class ResponseUserList(BaseModel):
-    users: List[ResponseGetUser] | List[ResponseFullGetUser]
+class ResponseUserList(Schema):
+    users: list = fields.List(fields.Nested(ResponseGetUser), required=True)

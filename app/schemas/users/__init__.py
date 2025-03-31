@@ -1,7 +1,6 @@
 from .Get import (
     RequestGetUser,
     ResponseGetUser,
-    ResponseFullGetUser,
     ResponseUserList,
 )
 from .Login import (
@@ -12,3 +11,12 @@ from .Register import (
     RequestRegisterUser,
     ResponseRegisterUser,
 )
+
+
+requestGetUser = RequestGetUser()
+responseGetUser = ResponseGetUser()
+responseUserList = ResponseUserList()
+requestLoginUser = RequestLoginUser()
+responseLoginUser = ResponseLoginUser()
+requestRegisterUser = RequestRegisterUser()
+responseRegisterUser = ResponseRegisterUser()

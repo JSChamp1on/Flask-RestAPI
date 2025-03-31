@@ -1,57 +1,22 @@
-import re
-from typing import Annotated, Literal
-
-from annotated_types import MinLen, MaxLen
-from pydantic import BaseModel, EmailStr, field_validator
-from pydantic_core import PydanticCustomError
+from marshmallow import RAISE, INCLUDE, Schema, fields, validate
 
 
-class RequestRegisterUser(BaseModel):
-    class Config:
-        from_attributes = True
+class RequestRegisterUser(Schema):
+    username: str = fields.String(required=True, validate=validate.Length(min=3, max=20))
+    password: str = fields.String(required=True, validate=validate.Length(min=8, max=12))
+    gender: str = fields.String(required=True, validate=validate.OneOf(choices=['male', 'female']))
+    birthday: str = fields.Date(required=True, format='%Y-%m-%d')
+    last_name: str = fields.String(required=True, validate=validate.Length(min=2, max=20))
+    first_name: str = fields.String(required=True, validate=validate.Length(min=2, max=20))
+    email: str = fields.Email(required=False, missing=None)
 
-    username: Annotated[str, MinLen(3), MaxLen(20)]
-    password: str
-    gender: Literal['male', 'female']
-    birthday: str
-    last_name: Annotated[str, MinLen(2), MaxLen(20)]
-    first_name: Annotated[str, MinLen(2), MaxLen(20)]
-    email: EmailStr | None = None
-
-    @field_validator('password')
-    def valid_pass(cls, v):
-        regex = r"^[a-zA-Z0-9]{8,16}$"
-
-        if bool(re.match(regex, v)):
-            return v
-
-        if v != 'password':
-            raise PydanticCustomError(
-                f"{regex}",
-                'value is not valid "{wrong_value}"',
-                dict(wrong_value=v),
-            )
-
-        return v
-
-    @field_validator('birthday')
-    def valid_birthday(cls, v):
-        regex = r"^(19|20)[0-9]{2}-(0[1-9]|1[0-2])-(0[1-9]|[1-3][0-1])$"
-
-        if bool(re.match(regex, v)):
-            return v
-
-        if v != 'birthday':
-            raise PydanticCustomError(
-                f"{regex}",
-                'value is not valid "{wrong_value}"',
-                dict(wrong_value=v),
-            )
-
-        return v
+    class Meta:
+        unknown = RAISE
 
 
-class ResponseRegisterUser(BaseModel):
-    username: str
-    email: str | None
-    message: str
+class ResponseRegisterUser(Schema):
+    username: str = fields.String(required=True)
+    message: str = fields.String(required=False)
+
+    class Meta:
+        unknown = INCLUDE
