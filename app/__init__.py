@@ -1,4 +1,3 @@
-import yaml
 from flask import Flask
 from flask_smorest import Api
 
@@ -6,7 +5,7 @@ from app.models.users import USER_SESSION_TABLE
 from app.db import db, uri, migrate
 from app.controllers import user_controller
 from app.csrf import csrf
-from app.env import APP_SECRET_KEY, WTF_CSRF_SECRET_KEY, SESSION_COOKIE_NAME, SERV_HOST, SERV_PORT
+from app.config import APP_SECRET_KEY, WTF_CSRF_SECRET_KEY, SESSION_COOKIE_NAME, SERV_HOST, SERV_PORT, NODE_ENV
 
 
 SESSION_TYPE = 'sqlalchemy'
@@ -59,14 +58,6 @@ def create_app():
             "description": "Local development server"
         }
     ]
-
-    @app.route("/openapi.yaml")
-    def openapi_yaml():
-        spec = api.spec.to_dict()
-        return app.response_class(
-            yaml.dump(spec, default_flow_style=False),
-            mimetype="application/x-yaml"
-        )
 
     return app
 

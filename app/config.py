@@ -6,6 +6,10 @@ from flask.cli import load_dotenv
 load_dotenv()
 
 
+ENV_DEVl: str = 'development'
+ENV_PROD: str = 'production'
+NODE_ENV: str = os.getenv('NODE_ENV')
+
 SERV_HOST: str = os.getenv('SERV_HOST')
 SERV_PORT: str = os.getenv('SERV_PORT')
 

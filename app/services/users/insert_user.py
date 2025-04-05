@@ -1,12 +1,15 @@
 from app.db import db
 from app.models.users import UsersTable
 from app.schemas.users import RequestRegisterUser
+from app.services.users.password import hash_pwd
 
 
-def save_user_db(body: RequestRegisterUser) -> None:
+def insert_user_db(body: RequestRegisterUser) -> None:
+    hash_password = hash_pwd(password=body['password'])
+
     new_user = UsersTable(
         username=body['username'],
-        password=body['password'],
+        password=hash_password,
         gender=body['gender'],
         birthday=body['birthday'],
         last_name=body['last_name'],
