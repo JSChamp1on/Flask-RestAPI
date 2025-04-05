@@ -8,8 +8,8 @@ from .loginUserAuth import login_user_auth
 from app.csrf import csrf
 from app.schemas.users import (
     RequestGetUser, ResponseUserList,
-    RequestLoginUser, ResponseLoginUser,
-    RequestRegisterUser, ResponseRegisterUser, ResponseUserStatus,
+    RequestLoginUser, ResponseLoginUser, ResponseUserStatus,
+    RequestRegisterUser, ResponseRegisterUser,
 )
 
 
@@ -38,7 +38,7 @@ def user_blp(blp: Blueprint):
             return login_user_auth()
 
         @blp.arguments(RequestLoginUser, content_type='application/json')
-        @blp.response(200, ResponseLoginUser, content_type='application/json')
+        @blp.response(200, ResponseLoginUser, content_type='application/json', description='it\'s OK')
         @blp.alt_response(409, schema=ResponseLoginUser, content_type='application/json', description='User not found')
         def post(self, body):
             return login_user(body)
@@ -46,7 +46,7 @@ def user_blp(blp: Blueprint):
     @blp.route(RULE_GET_USERS)
     class GetUsers(MethodView):
         @blp.arguments(RequestGetUser, location='query')
-        @blp.response(200, ResponseUserList, content_type='application/json')
+        @blp.response(200, ResponseUserList, content_type='application/json', description='it\'s OK')
         @blp.alt_response(401, schema=ResponseUserList, content_type='application/json', description='User not found')
         def get(self, query):
             return get_users(query)

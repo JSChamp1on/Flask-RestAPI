@@ -4,18 +4,18 @@ from .validate_fields import username, gender, birthday, last_name, first_name
 
 
 class RequestGetUser(Schema):
-    username = username
+    username = fields.String(required=False, validate=username)
 
     class Meta:
         unknown = RAISE
 
 
 class ResponseGetUser(Schema):
-    username = username
-    gender = gender
-    birthday = birthday
-    last_name = last_name
-    first_name = first_name
+    username = fields.String(required=True, validate=username)
+    gender = fields.String(required=False, validate=gender)
+    birthday = fields.Date(required=False, format=birthday)
+    last_name = fields.String(required=False, validate=last_name)
+    first_name = fields.String(required=False, validate=first_name)
 
     class Meta:
         unknown = INCLUDE

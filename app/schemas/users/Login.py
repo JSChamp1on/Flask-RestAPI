@@ -1,11 +1,11 @@
-from marshmallow import RAISE, INCLUDE, Schema, fields, validate
+from marshmallow import RAISE, INCLUDE, Schema, fields
 
 from .validate_fields import username, password
 
 
 class RequestLoginUser(Schema):
-    username = username
-    password = password
+    username = fields.String(required=True, validate=username)
+    password = fields.String(required=True, validate=password)
 
     class Meta:
         unknown = RAISE
