@@ -17,7 +17,7 @@ class RequestRegisterUser(Schema):
 
 
 class ResponseRegisterUser(Schema):
-    username = username
+    username = fields.String(required=True, validate=username)
     message = fields.String(required=False)
 
     class Meta:
