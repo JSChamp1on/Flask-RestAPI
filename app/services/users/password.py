@@ -34,6 +34,7 @@ def verify_pwd(provided_password: str, stored_password: str) -> bool:
     kdf = _kdf(salt)
 
     b_provided_pwd = kdf.derive(provided_password.encode())
+
     return b_provided_pwd == b_stored_pwd
 
 

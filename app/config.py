@@ -15,6 +15,7 @@ SERV_PORT: str = os.getenv('SERV_PORT')
 
 APP_SECRET_KEY: str = os.getenv('APP_SECRET_KEY')
 WTF_CSRF_SECRET_KEY: str = os.getenv('WTF_CSRF_SECRET_KEY')
+SESSION_TYPE: str = 'sqlalchemy'
 SESSION_COOKIE_NAME: str = os.getenv('SESSION_COOKIE_NAME')
 
 DIALECT: str = "postgresql"

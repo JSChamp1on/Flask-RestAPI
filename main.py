@@ -14,7 +14,7 @@ if __name__ == '__main__':
             port=SERV_PORT,
         )
 
-    if NODE_ENV == ENV_PROD:
+    elif NODE_ENV == ENV_PROD:
         svr = WSGIServer(
             (SERV_HOST, int(SERV_PORT)),
             app,

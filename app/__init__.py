@@ -7,14 +7,13 @@ from app.csrf import csrf
 from app.config import (
     APP_SECRET_KEY,
     WTF_CSRF_SECRET_KEY,
+    SESSION_TYPE,
     SESSION_COOKIE_NAME,
     NODE_ENV,
     ENV_DEVl,
+    ENV_PROD,
 )
 from app.specification import swagger_init
-
-
-SESSION_TYPE = 'sqlalchemy'
 
 
 def create_app():
@@ -33,7 +32,7 @@ def create_app():
     if NODE_ENV == ENV_DEVl:
         api = swagger_init(app)
         api.register_blueprint(user_controller)
-    else:
+    elif NODE_ENV == ENV_PROD:
         app.register_blueprint(user_controller)
     db.init_app(app)
     migrate.init_app(app, db)

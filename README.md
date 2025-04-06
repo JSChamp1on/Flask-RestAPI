@@ -12,7 +12,7 @@ Install Flask libs
     
 ### ENV
 
-The variable environment settings are located __/.env__ or __/app/env.py__ file.
+The variable environment settings are located __/.env__ or __/app/config.py__ file.
 
 
 ### Database migration 
