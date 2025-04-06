@@ -1,4 +1,4 @@
-from marshmallow import fields, validate
+from marshmallow import validate
 
 
 username = validate.Length(min=3, max=20)

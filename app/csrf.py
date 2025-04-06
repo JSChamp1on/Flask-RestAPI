@@ -2,6 +2,7 @@ from flask_wtf.csrf import CSRFProtect, generate_csrf
 
 from app.config import WTF_CSRF_SECRET_KEY
 
+
 csrf = CSRFProtect()
 
 
